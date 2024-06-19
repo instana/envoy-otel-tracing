@@ -30,13 +30,14 @@ static_resources:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
                 tracing:
                   provider:
-                    name: envoy.tracers.dynamic_ot
+                    name: envoy.tracers.opentelemetry
                     typed_config:
-                      "@type": type.googleapis.com/envoy.config.trace.v3.DynamicOtConfig
-                      library: /opt/envoy/libcxx-libinstana_sensor.so
-                      config:
-                        service: envoy-front-proxy
-
+                      "@type": type.googleapis.com/envoy.config.trace.v3.OpenTelemetryConfig
+                      grpc_service:
+                        envoy_grpc:
+                          cluster_name: instana_agent
+                        timeout: 0.250s
+                      service_name: envoy-front-proxy
   clusters:
     - name: server_app
       type: STRICT_DNS
@@ -50,6 +51,24 @@ static_resources:
                     socket_address:
                       address: server-app
                       port_value: 8000
+    - name: instana_agent
+      type: STRICT_DNS
+      lb_policy: ROUND_ROBIN
+      typed_extension_protocol_options:
+        envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+          "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+          explicit_http_config:
+            http2_protocol_options:
+              allow_connect: true
+      load_assignment:
+        cluster_name: instana_agent
+        endpoints:
+        - lb_endpoints:
+          - endpoint:
+              address:
+                socket_address:
+                    address: instana-agent
+                    port_value: 4317
 
 admin:
   access_log_path: /dev/null

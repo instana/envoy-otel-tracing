@@ -58,6 +58,7 @@ services:
       - /dev:/dev:ro
       - /sys:/sys:ro
       - /var/log:/var/log:ro
+      - ./agent/configuration.yaml:/opt/instana/agent/etc/instana/configuration.yaml:ro
     networks:
       envoymesh:
         aliases:
@@ -70,6 +71,7 @@ services:
       - INSTANA_AGENT_ZONE=${agent_zone:-envoy-tracing-demo}
     expose:
       - "42699"
+      - "4317"
 
 networks:
   envoymesh: {}
