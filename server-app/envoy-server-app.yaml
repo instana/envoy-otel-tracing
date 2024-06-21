@@ -22,6 +22,7 @@ static_resources:
                       routes:
                         - match:
                             prefix: ""
+                          request_headers_to_remove: ["x-instana-s", "x-instana-t", "tracestate"]
                           route:
                             cluster: local_server_app
                 http_filters:
