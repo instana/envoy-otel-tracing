@@ -1,0 +1,75 @@
+version: '3'
+services:
+
+  client-app:
+    build:
+      context: ./client-app
+    networks:
+      - envoymesh
+    environment:
+      - INSTANA_DEV=1
+      - target_url=http://envoy-gateway:8000/envoy-demo
+
+  envoy:
+    build:
+      context: ./envoy
+      args:
+        agent_key: ${agent_key}
+        download_key: ${download_key}
+    volumes:
+      - ./envoy/envoy-gateway.yaml:/etc/envoy-gateway.yaml
+    networks:
+      envoymesh:
+        aliases:
+          - envoy-gateway
+    environment:
+      - INSTANA_DEV=1
+      - INSTANA_AGENT_HOST=instana-agent
+      - INSTANA_AGENT_PORT=42699
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+
+  server-app:
+    build:
+      context: ./server-app
+      args:
+        agent_key: ${agent_key}
+        download_key: ${download_key}
+    networks:
+      envoymesh:
+        aliases:
+          - server-app
+    environment:
+      - INSTANA_DEV=1
+      - INSTANA_AGENT_HOST=instana-agent
+      - INSTANA_AGENT_PORT=42699
+      - SERVER_PORT=8080
+    expose:
+      - "8080"
+
+  agent:
+    image: icr.io/instana/agent
+    pid: "host"
+    privileged: true
+    volumes:
+      - /var/run:/var/run
+      - /run:/run
+      - /dev:/dev:ro
+      - /sys:/sys:ro
+      - /var/log:/var/log:ro
+    networks:
+      envoymesh:
+        aliases:
+          - instana-agent
+    environment:
+      - INSTANA_AGENT_ENDPOINT=${agent_endpoint:-ingress-red-saas.instana.io}
+      - INSTANA_AGENT_ENDPOINT_PORT=${agent_endpoint_port:-443}
+      - INSTANA_AGENT_KEY=${agent_key}
+      - INSTANA_DOWNLOAD_KEY=${download_key}
+      - INSTANA_AGENT_ZONE=${agent_zone:-envoy-tracing-demo}
+    expose:
+      - "42699"
+
+networks:
+  envoymesh: {}
