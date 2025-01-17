@@ -1,5 +1,5 @@
 # Original from envoyproject/envoy:examples/front-proxy/Dockerfile-frontenvoy
-FROM envoyproxy/envoy:v1.32-latest
+FROM envoyproxy/envoy:v1.33.0
 
 WORKDIR /opt/envoy/
 
