@@ -25,7 +25,9 @@ RUN access_key=$([ ! -z "${INSTANA_DOWNLOAD_KEY}" ] && echo "${INSTANA_DOWNLOAD_
 COPY . .
 RUN ./mvnw clean package
 
-FROM envoyproxy/envoy:v1.33-latest
+#
+# Do not use "-latest" versions because those are not updated without always pull policy
+FROM envoyproxy/envoy:v1.33.2
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
