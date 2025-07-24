@@ -39,7 +39,7 @@ A template [.env.template](.env.template) can be copied to `.env` for your conve
 ## Build & Launch
 
 ```bash
-docker-compose up --build
+docker-compose down && docker-compose up --build
 ```
 
 This will build and launch the following components:
