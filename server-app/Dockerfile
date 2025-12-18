@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-slim AS envoy-tracing-server-app-build
+FROM eclipse-temurin:11-jdk-jammy AS envoy-tracing-server-app-build
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
@@ -27,7 +27,7 @@ RUN ./mvnw clean package
 
 #
 # Do not use "-latest" versions because those are not updated without always pull policy
-FROM envoyproxy/envoy:v1.36.2
+FROM envoyproxy/envoy:v1.36.4
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \

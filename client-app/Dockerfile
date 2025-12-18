@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-slim AS envoy-tracing-client-app-build
+FROM eclipse-temurin:11-jdk-jammy AS envoy-tracing-client-app-build
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
@@ -11,7 +11,7 @@ WORKDIR /opt/client-app/
 COPY ./ ./
 RUN ./mvnw clean package
 
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre-jammy
 
 VOLUME /tmp
 WORKDIR /opt/client-app/
