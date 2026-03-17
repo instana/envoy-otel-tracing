@@ -1,5 +1,4 @@
 # Based on: https://github.com/envoyproxy/envoy/tree/main/examples/front-proxy
-# Modification by Instana: add tracing configuration for libinstana_sensor.so
 static_resources:
   listeners:
     - address:
