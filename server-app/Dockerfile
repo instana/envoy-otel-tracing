@@ -14,7 +14,7 @@ RUN ./mvnw clean package
 
 #
 # Do not use "-latest" versions because those are not updated without always pull policy
-FROM envoyproxy/envoy:v1.37.2
+FROM envoyproxy/envoy:v1.38.0
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
