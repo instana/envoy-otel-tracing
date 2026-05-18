@@ -7,6 +7,7 @@ services:
     networks:
       - envoymesh
     environment:
+      - INSTANA_SPANBATCHING_ENABLED=false
       - INSTANA_DEV=1
       - target_url=http://envoy-gateway:8000/envoy-demo
 
