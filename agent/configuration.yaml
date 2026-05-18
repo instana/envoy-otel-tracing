@@ -123,8 +123,9 @@
 #          type: 'absolute' # absolute will report the value as-is
 
 # Java Tracing
-#com.instana.plugin.javatrace:
-#  instrumentation:
+com.instana.plugin.javatrace:
+  instrumentation:
+    spanBatchingEnabled: false
 #    # Lightweight Bytecode Instrumentation, enabled by default
 #    # Disabling currently requires an agent restart
 #    enabled: true
