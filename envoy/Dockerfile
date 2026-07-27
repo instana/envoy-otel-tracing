@@ -1,7 +1,7 @@
 # Original from envoyproject/envoy:examples/front-proxy/Dockerfile-frontenvoy
 #
 # Do not use "-latest" versions because those are not updated without always pull policy
-FROM envoyproxy/envoy:v1.38.2
+FROM envoyproxy/envoy:v1.38.3
 
 WORKDIR /opt/envoy/
 
