@@ -342,15 +342,27 @@ create_namespace() {
 }
 
 run_envoy() {
+  echo "Waiting for server-app before starting Envoy"
+  set -x
+  local i
+  for ((i=0; i<30; i++)); do
+    if [ "$(kubectl -n ${NAMESPACE} get pods | grep 'server-app' | grep 'Running' | wc -l | tr -d '\n')" != "0" ]; then
+      break
+    else
+      kubectl -n ${NAMESPACE} get pods
+      sleep 1
+    fi
+  done
+  set +x
   apply_yaml ${ENVOY_YAML_OUT}
   apply_yaml ${ENVOY_YAML_SERVICE}
 }
 
 run_demo_pods() {
   create_namespace ${NAMESPACE} || force_success
-  apply_yaml ${CLIENT_YAML_OUT}
   apply_yaml ${SERVER_YAML_OUT}
   apply_yaml ${SERVER_YAML_SERVICE}
+  apply_yaml ${CLIENT_YAML_OUT}
   run_envoy
 }
 
