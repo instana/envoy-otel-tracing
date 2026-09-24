@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: envoy
+  name: envoy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: envoy
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/envoymesh: "true"
+        io.kompose.service: envoy
+    spec:
+      containers:
+        - env:
+            - name: INSTANA_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+          image: ${REG_ADDR}/envoy-otel-tracing_envoy
+          imagePullPolicy: Always
+          name: envoy
+          ports:
+            - containerPort: 8000
+            - containerPort: 8001
+          resources: {}
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: client-app
+  name: client-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: client-app
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/envoymesh: "true"
+        io.kompose.service: client-app
+    spec:
+      containers:
+        - env:
+            - name: target_url
+              value: http://envoy:8000/envoy-demo
+          image: ${REG_ADDR}/envoy-otel-tracing_client-app
+          imagePullPolicy: Always
+          name: client-app
+          resources: {}
+      restartPolicy: Always
+status: {}

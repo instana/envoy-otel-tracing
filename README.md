@@ -39,7 +39,7 @@ A template [.env.template](.env.template) can be copied to `.env` for your conve
 ## Build & Launch
 
 ```bash
-docker-compose down && docker-compose up --build
+./run_demo.sh
 ```
 
 This will build and launch the following components:
@@ -51,3 +51,7 @@ After the agent is bootstrapped and starts accepting spans from Envoy, the resul
 look like this:
 
 ![Demo traces in the Analyze view](images/trace-view.png)
+
+## Run this in minikube
+
+See: [minikube/README.md](./minikube/README.md)

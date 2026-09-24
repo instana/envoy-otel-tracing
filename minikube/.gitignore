@@ -1,0 +1,3 @@
+client-app-deployment.yaml
+server-app-deployment.yaml
+envoy-deployment.yaml

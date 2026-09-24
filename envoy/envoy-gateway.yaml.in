@@ -67,7 +67,7 @@ static_resources:
           - endpoint:
               address:
                 socket_address:
-                    address: instana-agent
+                    address: ${INSTANA_AGENT_HOST}
                     port_value: 4317
 
 admin:
