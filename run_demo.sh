@@ -10,6 +10,7 @@ cd "${SRC_DIR}"
 # Patch the INSTANA_AGENT_HOST env var into envoy-gateway.yaml
 export INSTANA_AGENT_HOST="instana-agent"
 envsubst '{$INSTANA_AGENT_HOST}' < "./envoy/envoy-gateway.yaml.in" > "./envoy/envoy-gateway.yaml"
+envsubst '{$INSTANA_AGENT_HOST}' < "./server-app/envoy-server-app.yaml.in" > "./server-app/envoy-server-app.yaml"
 
 # Run the demo
 docker-compose down && docker-compose up --build

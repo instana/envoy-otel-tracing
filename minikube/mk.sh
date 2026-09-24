@@ -267,11 +267,14 @@ tag_and_push_img() {
 
 ENVOY_CFG_YAML_IN="../envoy/envoy-gateway.yaml.in"
 ENVOY_CFG_YAML_OUT=${ENVOY_CFG_YAML_IN%".in"}    # Drop .in suffix
+ENVOY_CFG_SERVER_APP_YAML_IN="../server-app/envoy-server-app.yaml.in"
+ENVOY_CFG_SERVER_APP_YAML_OUT=${ENVOY_CFG_SERVER_APP_YAML_IN%".in"}    # Drop .in suffix
 
 patch_envoy_config() {
   # Set the Instana agent hostname as "hostname.namespace" (both are "instana-agent")
   export INSTANA_AGENT_HOST="instana-agent.instana-agent"
   envsubst '{$INSTANA_AGENT_HOST}' < "${ENVOY_CFG_YAML_IN}" > "${ENVOY_CFG_YAML_OUT}"
+  envsubst '{$INSTANA_AGENT_HOST}' < "${ENVOY_CFG_SERVER_APP_YAML_IN}" > "${ENVOY_CFG_SERVER_APP_YAML_OUT}"
 }
 
 build_and_push_images() {

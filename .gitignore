@@ -1,3 +1,4 @@
 .env
 agent/logs/*
 envoy/envoy-gateway.yaml
+server-app/envoy-server-app.yaml
